@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odin Project | Library Project</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <h1>Library Project</h1>
+  <div>
+    <ul class="books"> 
+    </ul>
+  </div>
+
+  <form action="" class="new-book">
+    <label for="book_title">Book title: </label>
+    <input 
+          type="text" 
+          name="book_title" 
+          id="book_title"
+          placeholder="The Hobbit">
+    
+    <label for="book_author">Author: </label>
+    <input 
+          type="text" 
+          name="book_author" 
+          id="book_author"
+          placeholder="J.R.R. Tolkien">
+
+    <label for="book_pages">Number of pages:</label>
+    <input 
+          type="text" 
+          name="pages" 
+          id="book_pages">
+
+    <label for="is_read">Did you read this book?</label>
+    <select name="is_read" id="is_read">
+      <option value="read">Yes</optiotextn>
+      <option value="not read yet">No</option>
+    </select>
+    
+    <button type="submit" id="id_add">Add the book</button>
+    <button type="reset">Reset</button>
+
+  </form>
+
+
+</body>
+</html>
