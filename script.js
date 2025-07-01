@@ -8,10 +8,14 @@ function Book(title, author, pages, read) {
   this.title = title;
   this.author = author;
   this.pages = pages;
-  this.read = read;
+  this.isRead = !!read;
+  
   this.info = function() {
-    // return(this.title + " by " + this.author + ", " + this.pages + ", " + this.read)
-    return(`${this.title} by ${this.author}, ${this.pages}, ${this.read}`)
+    if (this.isRead) {
+      return(`${this.title} by ${this.author}, ${this.pages}, is read`)
+    } else {
+      return(`${this.title} by ${this.author}, ${this.pages}, is not read`)
+    }
   };
 }
 
@@ -23,26 +27,66 @@ function addBookToLibrary(title, author, pages, read) {
 const ul = document.querySelector("ul");
 const bookList = ul;
 
+// A few books, so initial library is not empty
+addBookToLibrary("Pride and Prejudice", "Jane Austen", 338, true);
+addBookToLibrary("Frankenstein", "Mary Shelley", 194, true);
+addBookToLibrary("Harry Potter", "Joanne K. Rowling", 287, false);
+addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
 
-// A few book, so initial library is not empty
-addBookToLibrary("Pride and Prejudice", "Jane Austen", 338, "read")
-addBookToLibrary("Frankenstein", "Mary Shelley", 194, "read")
-addBookToLibrary("Harry Potter", "Joanne K. Rowling", 287, "read")
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, "not read yet");
-myLibrary.forEach((item) => {
-  const book = document.createElement('li');
-  book.textContent = item.info();
-  book.classList.add("content")
-  bookList.appendChild(book);
-})
+function addBookToPage(item) {
+  const bookCard = document.createElement('li');
+  const book = document.createElement('p')
 
+  bookCard.setAttribute("data-book-id", item.id);
+  
+  book.textContent = item.info();  
+  bookCard.classList.add("content")
 
-function addBookToPage() {
-  const book = document.createElement('li');
-  book.textContent = myLibrary[myLibrary.length-1].info();
-  book.classList.add("content")
-  bookList.appendChild(book);
+  bookList.appendChild(bookCard);
+  bookCard.appendChild(book)
+  addButtons(bookCard, item.isRead)
 }
+
+function showLibrary(myLibrary) {
+  
+  myLibrary.forEach((item) => {
+    addBookToPage(item)
+  })
+}
+
+let deleteBtns = []
+
+function addButtons(bookCard, isRead) {
+  const changeBtn = document.createElement('button')
+  const deleteBtn = document.createElement('button')
+  
+  isRead ? changeBtn.textContent = "Chande to not read" 
+    : changeBtn.textContent = "Chande to read"
+  
+  deleteBtn.textContent = "Delete"
+  changeBtn.classList.add("change")
+  deleteBtn.classList.add("delete")
+  bookCard.appendChild(changeBtn);
+  bookCard.appendChild(deleteBtn)
+  
+  deleteBtn.addEventListener("click", () => {
+    const bookId = bookCard.getAttribute("data-book-id")
+    const index = myLibrary.findIndex((item) => bookId === item.id)
+    if (index >= 0) {
+        myLibrary.splice(index, 1)
+      }
+      bookCard.remove();
+  })
+  // changeBtn.addEventListener("click", () => {
+  //   isRead = !isRead
+  //   isRead ? changeBtn.textContent = "chande to not read" 
+  //   : changeBtn.textContent = "chande to read"
+  // })
+
+  // here separate toggle and delete to two fns
+}
+
+showLibrary(myLibrary);
 
 const addBtn = document.querySelector("#id_add")
 addBtn.addEventListener("click", addBookForm, false)
@@ -55,13 +99,28 @@ function addBookForm(event) {
   const isRead = document.querySelector("#is_read").value
 
   addBookToLibrary(title, author, pages, isRead)
-  addBookToPage();
+  addBookToPage(myLibrary[myLibrary.length-1]);
 }
 
 
 
+function check() {
+  console.log("toggle")
+}
 
-// const testBook = document.createElement('li');
-// testBook.textContent = "I'm a new book!"
-// bookList.appendChild(testBook)
+// deleteBtns.forEach((item) => {
+//   item.addEventListener("click", function(e) {
+//     const bookId = this.parentElement.getAttribute("data-book-id");
+//     const index = myLibrary.findIndex((item) => bookId === item.id)
+//     console.log(index)
+//     if (index >= 0) {
+//       myLibrary.splice(bookId, 1)
+//     }
+//     console.table(myLibrary)
+//     // showLibrary(myLibrary)
+//   })
+// })
 
+function dltBook() {
+
+}
