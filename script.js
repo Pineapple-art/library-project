@@ -11,12 +11,8 @@ function Book(title, author, pages, read) {
   this.isRead = !!read;
   
   this.info = function() {
-    if (this.isRead) {
-      return(`${this.title} by ${this.author}, ${this.pages}, is read`)
-    } else {
-      return(`${this.title} by ${this.author}, ${this.pages}, is not read`)
-    }
-  };
+    return(`${this.title} by ${this.author}, ${this.pages} pages`)
+  }
 }
 
 function addBookToLibrary(title, author, pages, read) {
@@ -34,12 +30,11 @@ addBookToLibrary("Harry Potter", "Joanne K. Rowling", 287, false);
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
 
 function addBookToPage(item) {
-  const bookCard = document.createElement('li');
+  const bookCard = document.createElement('li')
   const book = document.createElement('p')
 
-  bookCard.setAttribute("data-book-id", item.id);
-  
-  book.textContent = item.info();  
+  bookCard.setAttribute("data-book-id", item.id)
+  book.textContent = item.info()
   bookCard.classList.add("content")
 
   bookList.appendChild(bookCard);
@@ -54,14 +49,12 @@ function showLibrary(myLibrary) {
   })
 }
 
-let deleteBtns = []
-
 function addButtons(bookCard, isRead) {
   const changeBtn = document.createElement('button')
   const deleteBtn = document.createElement('button')
   
-  isRead ? changeBtn.textContent = "Chande to not read" 
-    : changeBtn.textContent = "Chande to read"
+  isRead ? changeBtn.textContent = "Read" 
+    : changeBtn.textContent = "Not read"
   
   deleteBtn.textContent = "Delete"
   changeBtn.classList.add("change")
@@ -77,13 +70,14 @@ function addButtons(bookCard, isRead) {
       }
       bookCard.remove();
   })
-  // changeBtn.addEventListener("click", () => {
-  //   isRead = !isRead
-  //   isRead ? changeBtn.textContent = "chande to not read" 
-  //   : changeBtn.textContent = "chande to read"
-  // })
 
-  // here separate toggle and delete to two fns
+  changeBtn.addEventListener("click", () => {
+    const bookId = bookCard.getAttribute("data-book-id")
+    const index = myLibrary.findIndex((item) => bookId === item.id)
+    myLibrary[index].toggleRead()
+    myLibrary[index].isRead ? changeBtn.textContent = "Read" 
+    : changeBtn.textContent = "Not read"
+  })
 }
 
 showLibrary(myLibrary);
@@ -102,25 +96,6 @@ function addBookForm(event) {
   addBookToPage(myLibrary[myLibrary.length-1]);
 }
 
-
-
-function check() {
-  console.log("toggle")
-}
-
-// deleteBtns.forEach((item) => {
-//   item.addEventListener("click", function(e) {
-//     const bookId = this.parentElement.getAttribute("data-book-id");
-//     const index = myLibrary.findIndex((item) => bookId === item.id)
-//     console.log(index)
-//     if (index >= 0) {
-//       myLibrary.splice(bookId, 1)
-//     }
-//     console.table(myLibrary)
-//     // showLibrary(myLibrary)
-//   })
-// })
-
-function dltBook() {
-
+Book.prototype.toggleRead = function() {
+  this.isRead = !this.isRead
 }
