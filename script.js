@@ -7,9 +7,9 @@ class Book {
     this.pages = pages;
     this.isRead = !!read;
 
-    this.info = function () {
-      return (`${this.title} by ${this.author}, ${this.pages} pages`)
-    }
+  }
+  info = function () {
+    return (`${this.title} by ${this.author}, ${this.pages} pages`)
   }
 
   toggleRead() {
